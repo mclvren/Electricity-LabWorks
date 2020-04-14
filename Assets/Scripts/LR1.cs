@@ -29,7 +29,7 @@ public class LR1 : MonoBehaviour
         cur = Current.GetComponent<Text>();
         sl = Slider.GetComponent<Slider>();
         sl.onValueChanged.AddListener(delegate { ValueChanged(); });
-        rtt(0);
+        rttclockwise(0);
     }
 
     void ValueChanged()
@@ -39,14 +39,13 @@ public class LR1 : MonoBehaviour
         {
             currentValue = mA;
             cur.text = mA.ToString();
-            if (isOn) rtt(mA / 10); // тест
+            if (isOn) rttclockwise(mA / 10); // тест
         }
         else
         {
             cur.text = mA.ToString();
-            Debug.Log("обратно не робит");
-            //rtt(-currentValue);
-            //rtt(mA / 10); 
+            //Debug.Log("обратно не робит");
+            if (isOn) rttcounterclockwise(mA / 10);
         }
 
     }
@@ -77,12 +76,42 @@ public class LR1 : MonoBehaviour
         }
     }
 
-    void rtt(float ang)
+    IEnumerator RotateMeNowCC(float targetAngle, float rotationSpeed)
+    {
+        while (true)
+        {
+            float step = rotationSpeed * Time.deltaTime;
+            if (currentAngle + step <= targetAngle)
+            {
+                // Докручиваем до нашего угла
+                step = targetAngle - currentAngle;
+                Arrow.transform.Rotate(Vector3.back, step);
+                break;
+            }
+            else if (currentAngle != targetAngle)
+            {
+                currentAngle += step;
+                Arrow.transform.Rotate(Vector3.back, step);
+            }
+            yield return null;
+        }
+    }
+
+
+    void rttclockwise(float ang)
     {
         var targetAngle = ang;
         float rotationSpeed = 3f; // Скорость поворота
         StartCoroutine(RotateMeNow(targetAngle, rotationSpeed));
         Deg.GetComponent<Text>().text = (ang.ToString()+"°");
+    }
+
+    void rttcounterclockwise(float ang)
+    {
+        var targetAngle = ang;
+        float rotationSpeed = -3f; // Скорость поворота
+        StartCoroutine(RotateMeNowCC(targetAngle, rotationSpeed));
+        Deg.GetComponent<Text>().text = (ang.ToString() + "°");
     }
 
     void Enable()
