@@ -356,6 +356,6 @@ public class LR1 : MonoBehaviour
 
     void Back()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 }
