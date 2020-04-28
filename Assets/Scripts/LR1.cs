@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LR1 : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class LR1 : MonoBehaviour
     void Start()
     {
         //События для кнопок
+        Menu.GetComponent<Button>().onClick.AddListener(Back);
         Init.GetComponent<Button>().onClick.AddListener(Enable);
         Plus.GetComponent<Button>().onClick.AddListener(PlusX);
         Plus10.GetComponent<Button>().onClick.AddListener(Plus10X);
@@ -350,5 +352,10 @@ public class LR1 : MonoBehaviour
             Blackout.transform.gameObject.SetActive(false);
             Deg.transform.gameObject.SetActive(false);
         }
+    }
+
+    void Back()
+    {
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
     }
 }
