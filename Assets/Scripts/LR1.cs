@@ -139,8 +139,8 @@ public class LR1 : MonoBehaviour
         mA *= -1;
         inverseState = !inverseState;
         StopAllCoroutines();
-        if (inverseState) k = 0.2046f;
-        else k = 0.195f;
+        if (inverseState) k = Random.Range(0.2026f, 0.2066f);
+        else k = Random.Range(0.1935f, 0.1965f);
         if (mA > currentValue)
         {
             currentValue = mA;
