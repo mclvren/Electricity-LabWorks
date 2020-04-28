@@ -13,7 +13,9 @@ public class LR1 : MonoBehaviour
     [SerializeField] GameObject DropShift;
     [SerializeField] GameObject Menu;
     [SerializeField] GameObject Plus;
+    [SerializeField] GameObject Plus10;
     [SerializeField] GameObject Minus;
+    [SerializeField] GameObject Minus10;
     [SerializeField] GameObject Zero;
     [SerializeField] GameObject Polar;
     //Стрелка
@@ -40,7 +42,9 @@ public class LR1 : MonoBehaviour
         //События для кнопок
         Init.GetComponent<Button>().onClick.AddListener(Enable);
         Plus.GetComponent<Button>().onClick.AddListener(PlusX);
+        Plus10.GetComponent<Button>().onClick.AddListener(Plus10X);
         Minus.GetComponent<Button>().onClick.AddListener(MinusX);
+        Minus10.GetComponent<Button>().onClick.AddListener(Minus10X);
         Zero.GetComponent<Button>().onClick.AddListener(ZeroX);
         Polar.GetComponent<Button>().onClick.AddListener(Inverse);
         DS = DropShift.GetComponent<Dropdown>();
@@ -62,7 +66,16 @@ public class LR1 : MonoBehaviour
         currentValue = mA;
         cur.text = mA.ToString();
         StopAllCoroutines();
-        if (isOn) rttclockwise(mA * 0.195f);
+        if (isOn) rttclockwise(mA * Random.Range(0.1935f, 0.1965f));
+    }
+
+    void Plus10X()
+    {
+        mA += 10;
+        currentValue = mA;
+        cur.text = mA.ToString();
+        StopAllCoroutines();
+        if (isOn) rttclockwise(mA * Random.Range(0.1935f, 0.1965f));
     }
     //Убавление
     void MinusX()
@@ -73,7 +86,32 @@ public class LR1 : MonoBehaviour
             currentValue = mA;
             cur.text = mA.ToString();
             StopAllCoroutines();
-            if (isOn) rttcounterclockwise(mA * 0.195f);
+            if (currentValue < 0)
+            {
+                ZeroX();
+            }
+            else
+            {
+                if (isOn) rttcounterclockwise(mA * Random.Range(0.1935f, 0.1965f));
+            }
+        }
+    }
+    void Minus10X()
+    {
+        if (currentValue > 0)
+        {
+            mA -= 10;
+            currentValue = mA;
+            cur.text = mA.ToString();
+            StopAllCoroutines();
+            if (currentValue < 0)
+            {
+                ZeroX();
+            }
+            else
+            {
+                if (isOn) rttcounterclockwise(mA * Random.Range(0.1935f, 0.1965f));
+            }
         }
     }
     //Задать 0 мА
@@ -144,19 +182,19 @@ public class LR1 : MonoBehaviour
                 tAngle = bAngle;
                 break;
             case 1:
-                tAngle += 2;
+                tAngle += Random.Range(1.90f, 2.10f);
                 break;
             case 2:
-                tAngle -= 1;
+                tAngle -= Random.Range(0.90f, 1.10f);
                 break;
             case 3:
-                tAngle -= 4;
+                tAngle -= Random.Range(3.90f, 4.10f);
                 break;
             case 4:
-                tAngle -= 8;
+                tAngle -= Random.Range(7.90f, 8.10f);
                 break;
             case 5:
-                tAngle -= 16;
+                tAngle -= Random.Range(15.90f, 16.10f);
                 break;
             default:
                 UnityEngine.Debug.Log("Смещение задано не верно");
@@ -184,13 +222,17 @@ public class LR1 : MonoBehaviour
         if (Shifter_Check_If_Changed)
         {
             Plus.GetComponent<Button>().interactable = false;
+            Plus10.GetComponent<Button>().interactable = false;
             Minus.GetComponent<Button>().interactable = false;
+            Minus10.GetComponent<Button>().interactable = false;
             Zero.GetComponent<Button>().interactable = false;
         }
         else
         {
             Plus.GetComponent<Button>().interactable = true;
+            Plus10.GetComponent<Button>().interactable = true;
             Minus.GetComponent<Button>().interactable = true;
+            Minus10.GetComponent<Button>().interactable = true;
             Zero.GetComponent<Button>().interactable = true;
         }
         }
