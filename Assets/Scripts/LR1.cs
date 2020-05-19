@@ -5,6 +5,8 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using System.Linq;
 
 public class LR1 : MonoBehaviour
 {
@@ -61,6 +63,40 @@ public class LR1 : MonoBehaviour
         rttclockwise(0);
         DS.interactable = false;
     }
+    //Аппроксимация функции. Угол по току
+    //По данным с https://planetcalc.ru/5992/ % ошибки меньше всего у кубической регрессии
+    //Нахождения кубической регрессии с помощью http://mathhelpplanet.com/static.php?p=onlayn-mnk-i-regressionniy-analiz
+
+    /* Исходные данные:
+     *   mA 85	130	210	380 455
+     * Угол 20	30	40	50  60
+    */
+    // Средняя ошибка аппроксимации (погрешность) = 0.00789056316568377374 %
+    float GetA(float i)
+    {
+        //Коэффициенты кубической регрессии, найденные в http://mathhelpplanet.com/static.php?p=onlayn-mnk-i-regressionniy-analiz
+        double a, b, c, d;
+        a = 0.00000174794000391636;
+        b = -0.00152270563400624948;
+        c = 0.48827583735541679744;
+        d = -11.57761239131832553539;
+        //Формула кубической регрессии
+        float A = (float)(a * Math.Pow(i, 3) + b * Math.Pow(i, 2) + c * i + d);
+        return A;
+    }
+    //Средняя ошибка аппроксимации = 0.00000000654452368306 %
+    float GetB(float i)
+    {
+        //Коэффициенты кубической регрессии, найденные в http://mathhelpplanet.com/static.php?p=onlayn-mnk-i-regressionniy-analiz
+        double a, b, c, d;
+        a = 0.00000064251689367231;
+        b = -0.00085084745762031844;
+        c = 0.38255389388416460861;
+        d = -5.76429378412285586819;
+        //Формула кубической регрессии
+        float A = (float)(a * Math.Pow(i, 3) + b * Math.Pow(i, 2) + c * i + d);
+        return A;
+    }
     //Прибавление тока
     void PlusX()
     {
@@ -68,7 +104,7 @@ public class LR1 : MonoBehaviour
         currentValue = mA;
         cur.text = mA.ToString();
         StopAllCoroutines();
-        if (isOn) rttclockwise(mA * Random.Range(0.1935f, 0.1965f));
+        if (isOn) rttclockwise(GetA(mA));
     }
 
     void Plus10X()
@@ -77,7 +113,7 @@ public class LR1 : MonoBehaviour
         currentValue = mA;
         cur.text = mA.ToString();
         StopAllCoroutines();
-        if (isOn) rttclockwise(mA * Random.Range(0.1935f, 0.1965f));
+        if (isOn) rttclockwise(GetA(mA));
     }
     //Убавление
     void MinusX()
@@ -94,7 +130,7 @@ public class LR1 : MonoBehaviour
             }
             else
             {
-                if (isOn) rttcounterclockwise(mA * Random.Range(0.1935f, 0.1965f));
+                if (isOn) rttcounterclockwise(GetA(mA));
             }
         }
     }
@@ -112,7 +148,7 @@ public class LR1 : MonoBehaviour
             }
             else
             {
-                if (isOn) rttcounterclockwise(mA * Random.Range(0.1935f, 0.1965f));
+                if (isOn) rttcounterclockwise(GetA(mA));
             }
         }
     }
@@ -141,19 +177,19 @@ public class LR1 : MonoBehaviour
         mA *= -1;
         inverseState = !inverseState;
         StopAllCoroutines();
-        if (inverseState) k = Random.Range(0.2026f, 0.2066f);
-        else k = Random.Range(0.1935f, 0.1965f);
+        if (inverseState) k = GetB(Math.Abs(mA));
+        else k = GetA(Math.Abs(mA));
         if (mA > currentValue)
         {
             currentValue = mA;
             cur.text = mA.ToString();
-            if (isOn) rttclockwise(mA * k);
+            if (isOn) rttclockwise(k);
         }
         else if (mA < currentValue)
         {
             currentValue = mA;
             cur.text = mA.ToString();
-            if (isOn) rttcounterclockwise(mA * k);
+            if (isOn) rttcounterclockwise(k);
         }
     }
     void ShifterH(float tAngle)
@@ -175,37 +211,39 @@ public class LR1 : MonoBehaviour
     {
         var val = DSX.value;
         float tAngle;
-        if (bAngle != null) tAngle = bAngle;
+        if ((bAngle != null)&&(bAngle != 0f)) tAngle = bAngle;
         else tAngle = currentAngle;
-        //UnityEngine.Debug.Log(val);
+        UnityEngine.Debug.Log("currentAngle=" + currentAngle);
+        if (!Shifter_Check_If_Changed) bAngle = currentAngle;
+        //
         switch (val)
         {
             case 0:
                 tAngle = bAngle;
                 break;
             case 1:
-                tAngle += Random.Range(1.90f, 2.10f);
+                tAngle += 2f;
                 break;
             case 2:
-                tAngle -= Random.Range(0.90f, 1.10f);
+                tAngle -= 1f;
                 break;
             case 3:
-                tAngle -= Random.Range(3.90f, 4.10f);
+                tAngle -= 3f;
                 break;
             case 4:
-                tAngle -= Random.Range(7.90f, 8.10f);
+                tAngle -= 8f;
                 break;
             case 5:
-                tAngle -= Random.Range(15.90f, 16.10f);
+                tAngle -= 16f;
                 break;
             default:
                 UnityEngine.Debug.Log("Смещение задано не верно");
                 break;
         }
         ShifterH(tAngle);
-        if (!Shifter_Check_If_Changed) bAngle = currentAngle;
+        UnityEngine.Debug.Log("tAngle="+tAngle);
         Shifter_Check_If_Changed = true;
-        UnityEngine.Debug.Log("bAngle = "+bAngle);
+        UnityEngine.Debug.Log("bAngle="+bAngle);
     }
     //Функции после запуска (покадровые)
     void Update()
@@ -228,6 +266,7 @@ public class LR1 : MonoBehaviour
             Minus.GetComponent<Button>().interactable = false;
             Minus10.GetComponent<Button>().interactable = false;
             Zero.GetComponent<Button>().interactable = false;
+            Polar.GetComponent<Button>().interactable = false;
         }
         else
         {
@@ -236,6 +275,7 @@ public class LR1 : MonoBehaviour
             Minus.GetComponent<Button>().interactable = true;
             Minus10.GetComponent<Button>().interactable = true;
             Zero.GetComponent<Button>().interactable = true;
+            Polar.GetComponent<Button>().interactable = true;
         }
         }
     //Подпрограмма поворота стрелки
@@ -250,14 +290,14 @@ public class LR1 : MonoBehaviour
                 step = targetAngle - currentAngle;
                 currentAngle += step;
                 Arrow.transform.Rotate(Vector3.back, step);
-                UnityEngine.Debug.Log("Текущий угол: " + currentAngle);
+                //UnityEngine.Debug.Log("Текущий угол: " + currentAngle);
                 break;
             }
             else if (currentAngle!=targetAngle)
             {
                 currentAngle += step;
                 Arrow.transform.Rotate(Vector3.back, step);
-                UnityEngine.Debug.Log("Текущий угол: " + currentAngle);
+                //UnityEngine.Debug.Log("Текущий угол: " + currentAngle);
             }
             yield return null;
         }
@@ -274,14 +314,14 @@ public class LR1 : MonoBehaviour
                 step = targetAngle - currentAngle;
                 currentAngle += step;
                 Arrow.transform.Rotate(Vector3.back, step);
-                UnityEngine.Debug.Log("Текущий угол: " + currentAngle);
+                //UnityEngine.Debug.Log("Текущий угол: " + currentAngle);
                 break;
             }
             else if (currentAngle != targetAngle)
             {
                 currentAngle += step;
                 Arrow.transform.Rotate(Vector3.back, step);
-                UnityEngine.Debug.Log("Текущий угол: " + currentAngle);
+                //UnityEngine.Debug.Log("Текущий угол: " + currentAngle);
             }
             yield return null;
         }
@@ -293,7 +333,7 @@ public class LR1 : MonoBehaviour
         var targetAngle = ang;
         float rotationSpeed = 50f; // Скорость поворота
         StartCoroutine(RotateMeNow(targetAngle, rotationSpeed));
-        Deg.GetComponent<Text>().text = (ang.ToString()+"°");
+        Deg.GetComponent<Text>().text = ((Math.Round(ang)).ToString()+"°");
     }
     //Инициализация поворота в обратную сторону
     void rttcounterclockwise(float ang)
@@ -301,7 +341,7 @@ public class LR1 : MonoBehaviour
         var targetAngle = ang;
         float rotationSpeed = -50f; // Скорость поворота
         StartCoroutine(RotateMeNowCC(targetAngle, rotationSpeed));
-        Deg.GetComponent<Text>().text = (ang.ToString() + "°");
+        Deg.GetComponent<Text>().text = ((Math.Round(ang)).ToString() + "°");
     }
     //Функция для кнопки "Вкл"
     void Enable()
