@@ -187,6 +187,7 @@ public class LR1 : MonoBehaviour
         }
         else if (mA < currentValue)
         {
+            k *= -1;
             currentValue = mA;
             cur.text = mA.ToString();
             if (isOn) rttcounterclockwise(k);
@@ -333,7 +334,7 @@ public class LR1 : MonoBehaviour
         var targetAngle = ang;
         float rotationSpeed = 50f; // Скорость поворота
         StartCoroutine(RotateMeNow(targetAngle, rotationSpeed));
-        Deg.GetComponent<Text>().text = ((Math.Round(ang)).ToString()+"°");
+        Deg.GetComponent<Text>().text = ((Math.Round(ang, 3)).ToString()+"°");
     }
     //Инициализация поворота в обратную сторону
     void rttcounterclockwise(float ang)
@@ -341,7 +342,7 @@ public class LR1 : MonoBehaviour
         var targetAngle = ang;
         float rotationSpeed = -50f; // Скорость поворота
         StartCoroutine(RotateMeNowCC(targetAngle, rotationSpeed));
-        Deg.GetComponent<Text>().text = ((Math.Round(ang)).ToString() + "°");
+        Deg.GetComponent<Text>().text = ((Math.Round(ang, 3)).ToString() + "°");
     }
     //Функция для кнопки "Вкл"
     void Enable()
