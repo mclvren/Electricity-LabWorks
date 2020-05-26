@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 // Author: Eric Eastwood (ericeastwood.com)
 //
@@ -12,12 +14,15 @@ using System.Collections;
 //
 // Usage: https://i.imgur.com/BM52dbT.png
 public class Pendulum : MonoBehaviour {
-	
+
+	[SerializeField] GameObject Menu;
+	[SerializeField] GameObject Init;
+	[SerializeField] GameObject Degrees;
 	public GameObject Pivot;
 	public GameObject Bob;
 	
-	
 	public float mass = 1f;
+	public float dgrs;
 	
 	float ropeLength = 2f;
 	
@@ -46,6 +51,9 @@ public class Pendulum : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Set the starting position for later use in the context menu reset methods
+		Menu.GetComponent<Button>().onClick.AddListener(Back);
+		Init.GetComponent<Button>().onClick.AddListener(Enable);
+
 		this.bobStartingPosition = this.Bob.transform.position;
 		this.bobStartingPositionSet = true;
 		
@@ -86,8 +94,18 @@ public class Pendulum : MonoBehaviour {
 		
 		//this.Bob.transform.position = this.PendulumUpdate(this.Bob.transform.position, Time.deltaTime);
 	}
-	
-	
+
+	void Enable()
+    {
+		dgrs = float.Parse(Degrees.GetComponent<Text>().text);
+		Vector3 startPosition = new Vector3(0.0000f, 0.0000f, 14f);
+		startPosition.y = -1 * (6 * (Mathf.Cos((dgrs * Mathf.PI) / 180)));
+		startPosition.x = 6 + (6 * (Mathf.Sin((dgrs * Mathf.PI) / 180)));
+		ResetPendulumForces();
+		this.MoveBob(startPosition);
+	}
+
+
 	// Use this to reset forces and go back to the starting position
 	[ContextMenu("Reset Pendulum Position")]
 	void ResetPendulumPosition()
@@ -224,5 +242,10 @@ public class Pendulum : MonoBehaviour {
 		Gizmos.DrawRay(this.Bob.transform.position, 3f*this.tangentDirection);
 		Gizmos.DrawSphere(this.Bob.transform.position + 3f*this.tangentDirection, .2f);
 		/* */
+	}
+
+	void Back()
+	{
+		SceneManager.LoadScene("Menu", LoadSceneMode.Single);
 	}
 }
