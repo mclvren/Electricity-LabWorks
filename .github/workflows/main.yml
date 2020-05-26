@@ -1,0 +1,51 @@
+name: Build project
+
+on:
+  pull_request: {}
+  push: { branches: [master] }
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  buildForSomePlatforms:
+    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion:
+          - 2019.3.8f1
+        targetPlatform:
+          - Android # Build an Android .apk standalone app.
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true
+      - uses: actions/cache@v1
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-
+            Library-
+      - uses: webbertakken/unity-builder@v1.0
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          #Заливаем в репозиторий
+      - name: Set git config and add changes
+        run: |
+            git config --global user.email "${GITHUB_ACTOR}@https://users.noreply.github.com/"
+            git config --global user.name "${GITHUB_ACTOR}"
+            git add --all
+        working-directory: build
+      - name: Push and send notification
+        run: |
+            COMMIT_MESSAGE="Update build on $(date +'%Y-%m-%d %H:%M:%S')"
+            git diff-index --quiet --cached HEAD -- && echo "No changes!" && exit 0 || echo $COMMIT_MESSAGE
+            # Only if repo have changes
+            git commit -m "${COMMIT_MESSAGE}"
+            git push https://${{ secrets.ACCESS_TOKEN }}@github.com/${GITHUB_ACTOR}/${GITHUB_ACTOR}.github.io.git master
+        working-directory: build
