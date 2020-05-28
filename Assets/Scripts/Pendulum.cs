@@ -24,7 +24,7 @@ public class Pendulum : MonoBehaviour {
 	public float mass = 1f;
 	public float dgrs;
 	
-	float ropeLength = 2f;
+	float ropeLength = 6f;
 	
 	Vector3 bobStartingPosition;
 	bool bobStartingPositionSet = false;
@@ -99,10 +99,13 @@ public class Pendulum : MonoBehaviour {
     {
 		dgrs = float.Parse(Degrees.GetComponent<Text>().text);
 		Vector3 startPosition = new Vector3(0.0000f, 0.0000f, 14f);
-		startPosition.y = -1 * (6 * (Mathf.Cos((dgrs * Mathf.PI) / 180)));
-		startPosition.x = 6 + (6 * (Mathf.Sin((dgrs * Mathf.PI) / 180)));
-		ResetPendulumForces();
+		startPosition.y = -1 *(6 * (Mathf.Cos((dgrs * Mathf.PI) / 180)));
+		startPosition.x = 6 * (Mathf.Sin((dgrs * Mathf.PI) / 180));
+		PendulumInit();
 		this.MoveBob(startPosition);
+		UnityEngine.Debug.Log(startPosition);
+		this.bobStartingPosition = this.Bob.transform.position;
+		this.bobStartingPositionSet = true;
 	}
 
 
