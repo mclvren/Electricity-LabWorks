@@ -17,12 +17,15 @@ public class SceneChanger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Lab25.GetComponent<Button>().onClick.AddListener(Scene25);
+        Lab22.GetComponent<Button>().onClick.AddListener(delegate { SceneX("Laba22"); });
+        Lab29.GetComponent<Button>().onClick.AddListener(delegate { SceneX("Laba29"); });
+        Lab25.GetComponent<Button>().onClick.AddListener(delegate { SceneX("Laba25"); });
+        Lab211.GetComponent<Button>().onClick.AddListener(delegate { SceneX("Laba211"); });
     }
 
-    void Scene25()
+    void SceneX(string x)
     {
-        SceneManager.LoadScene("Laba25", LoadSceneMode.Single);
+        SceneManager.LoadScene(x, LoadSceneMode.Single);
     }
     // Update is called once per frame
     void Update()

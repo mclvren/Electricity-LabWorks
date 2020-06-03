@@ -745,6 +745,7 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Build: 1
     Collab: 1
     UNet: 1
   luminIcon:
@@ -759,10 +760,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 70f1fd6b-3897-4970-b6a6-1de04628e4de
+  cloudProjectId: 3b4483a0-bf82-4a3c-978b-875f6a8a8978
   framebufferDepthMemorylessMode: 0
-  projectName: labi
-  organizationId: rty3ueh6eva
+  projectName: Electricity LabWorks
+  organizationId: ilinandrum
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
