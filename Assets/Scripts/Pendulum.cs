@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Globalization;
+using System.IO;
+using System.Diagnostics;
 
 // Author: Eric Eastwood (ericeastwood.com)
 //
@@ -21,7 +24,7 @@ public class Pendulum : MonoBehaviour {
 	[SerializeField] GameObject Length;
 	public GameObject Pivot;
 	public GameObject Bob;
-	
+	private Stopwatch sWatch;
 	public float mass = 120f;
 	public float dgrs;
 	
@@ -40,8 +43,7 @@ public class Pendulum : MonoBehaviour {
 	
 	private float tensionForce = 0f;
 	private float gravityForce = 0f;
-	
-	
+
 	// Keep track of the current velocity
 	Vector3 currentVelocity = new Vector3();
 	
@@ -54,7 +56,7 @@ public class Pendulum : MonoBehaviour {
 		// Set the starting position for later use in the context menu reset methods
 		Menu.GetComponent<Button>().onClick.AddListener(Back);
 		Init.GetComponent<Button>().onClick.AddListener(Enable);
-
+		sWatch = GameObject.Find("TimerText").GetComponent("Stopwatch") as Stopwatch; // получаем ссылку на скрипт
 		this.bobStartingPosition = this.Bob.transform.position;
 		this.bobStartingPositionSet = true;
 		
@@ -96,16 +98,36 @@ public class Pendulum : MonoBehaviour {
 		//this.Bob.transform.position = this.PendulumUpdate(this.Bob.transform.position, Time.deltaTime);
 	}
 
+	private bool isON = false;
+
 	void Enable()
     {
-		this.ropeLength = float.Parse(Length.GetComponent<Text>().text);
-		dgrs = float.Parse(Degrees.GetComponent<Text>().text);
-		Vector3 newPosition = new Vector3(0.0000f, 0.0000f, 14f);
-		newPosition.y = -1 *(this.ropeLength * (Mathf.Cos((dgrs * Mathf.PI) / 180)));
-		newPosition.x = this.ropeLength * (Mathf.Sin((dgrs * Mathf.PI) / 180));
-		this.MoveBob(newPosition);
-		PendulumInit();
-		UnityEngine.Debug.Log(newPosition);
+		if (!isON)
+		{
+			if ((Length.GetComponent<Text>().text != "") & (Degrees.GetComponent<Text>().text != ""))
+			{
+				isON = true;
+				Init.GetComponentInChildren<Text>().text = "Остановить";
+				sWatch.startTimer();
+				this.ropeLength = float.Parse(Length.GetComponent<Text>().text);
+				dgrs = float.Parse(Degrees.GetComponent<Text>().text);
+				Vector3 newPosition = new Vector3(0.0000f, 0.0000f, 14f);
+				newPosition.y = -1 * (this.ropeLength * (Mathf.Cos((dgrs * Mathf.PI) / 180)));
+				newPosition.x = this.ropeLength * (Mathf.Sin((dgrs * Mathf.PI) / 180));
+				this.MoveBob(newPosition);
+				PendulumInit();
+				UnityEngine.Debug.Log(newPosition);
+			}
+		}
+		else if (isON)
+		{
+			isON = false;
+			Init.GetComponentInChildren<Text>().text = "Запустить";
+			sWatch.stopTimer();
+			if (this.bobStartingPositionSet)
+				this.MoveBob(this.bobStartingPosition);
+			ResetPendulumForces();
+		}
 	}
 
 
