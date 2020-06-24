@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class SceneChanger : MonoBehaviour
 {
-    [SerializeField] GameObject Lab21;
     [SerializeField] GameObject Lab22;
     [SerializeField] GameObject Lab25;
     [SerializeField] GameObject Lab29;

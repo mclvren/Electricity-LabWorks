@@ -18,13 +18,14 @@ public class Pendulum : MonoBehaviour {
 	[SerializeField] GameObject Menu;
 	[SerializeField] GameObject Init;
 	[SerializeField] GameObject Degrees;
+	[SerializeField] GameObject Length;
 	public GameObject Pivot;
 	public GameObject Bob;
 	
-	public float mass = 1f;
+	public float mass = 120f;
 	public float dgrs;
 	
-	float ropeLength = 6f;
+	float ropeLength = 15f;
 	
 	Vector3 bobStartingPosition;
 	bool bobStartingPositionSet = false;
@@ -62,7 +63,7 @@ public class Pendulum : MonoBehaviour {
 	
 	
 	float t = 0f;
-	float dt = 0.01f;
+	float dt = 0.00001f;
 	float currentTime = 0f;
 	float accumulator = 0f;
 	
@@ -97,15 +98,14 @@ public class Pendulum : MonoBehaviour {
 
 	void Enable()
     {
+		this.ropeLength = float.Parse(Length.GetComponent<Text>().text);
 		dgrs = float.Parse(Degrees.GetComponent<Text>().text);
-		Vector3 startPosition = new Vector3(0.0000f, 0.0000f, 14f);
-		startPosition.y = -1 *(6 * (Mathf.Cos((dgrs * Mathf.PI) / 180)));
-		startPosition.x = 6 * (Mathf.Sin((dgrs * Mathf.PI) / 180));
+		Vector3 newPosition = new Vector3(0.0000f, 0.0000f, 14f);
+		newPosition.y = -1 *(this.ropeLength * (Mathf.Cos((dgrs * Mathf.PI) / 180)));
+		newPosition.x = this.ropeLength * (Mathf.Sin((dgrs * Mathf.PI) / 180));
+		this.MoveBob(newPosition);
 		PendulumInit();
-		this.MoveBob(startPosition);
-		UnityEngine.Debug.Log(startPosition);
-		this.bobStartingPosition = this.Bob.transform.position;
-		this.bobStartingPositionSet = true;
+		UnityEngine.Debug.Log(newPosition);
 	}
 
 
@@ -178,7 +178,7 @@ public class Pendulum : MonoBehaviour {
 			this.tensionForce = this.mass * Physics.gravity.magnitude * Mathf.Cos(Mathf.Deg2Rad * inclinationAngle);
 			float centripetalForce = ((this.mass * Mathf.Pow(this.currentVelocity.magnitude, 2))/this.ropeLength);
 			this.tensionForce += centripetalForce;
-			
+
 			this.currentVelocity += this.tensionDirection * this.tensionForce * deltaTime;
 		}
 		
