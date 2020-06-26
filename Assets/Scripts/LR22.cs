@@ -98,9 +98,11 @@ public class LR22 : MonoBehaviour
     {
         var val = DSX.value;
         currentSource = source[val];
-        Rs = rin[val]; 
-        VoltageIn[0].text = currentSource.ToString();
-        getOutput(currentSource, currentResistor, Rs);
+        Rs = rin[val];
+        if (isOn[0] == true)
+            VoltageIn[0].text = currentSource.ToString();
+        if (isOn[0] == true)
+            getOutput(currentSource, currentResistor, Rs);
         UnityEngine.Debug.Log("Источник №" + val + " = " + currentSource + " В");
     }
     //Функция отображения номинала резистора по его номеру
@@ -111,7 +113,8 @@ public class LR22 : MonoBehaviour
         {
             currentResistor = res[val];
             Resistance[0].GetComponent<Text>().text = currentResistor.ToString();
-            getOutput(currentSource, currentResistor, Rs);
+            if ((isOn[0] == true) || (isOn[1] == true))
+                getOutput(currentSource, currentResistor, Rs);
         }
         else
         {
@@ -124,7 +127,8 @@ public class LR22 : MonoBehaviour
     {
         float I = U / (R + r);
         Current[0].text = I.ToString();
-        VoltageOut[0].text = (I * R).ToString();
+        if (isOn[0] == true)
+            VoltageOut[0].text = (I * R).ToString();
     }
     //Подсчет выходных значений для схемы 2.5 (без учета внутреннего сопротивления источников, т.к. в задании эго не учитывали)
     void getOutput2(int M, float U1, float U2, float R1, float R2, float R3, float r1, float r2)
@@ -145,8 +149,11 @@ public class LR22 : MonoBehaviour
                 UnityEngine.Debug.Log("Ошибка при ветви измерений");
                 break;
         }
-        Current[1].text = I.ToString();
-        VoltageOut[1].text = (I * float.Parse(Resistance[M].GetComponent<Text>().text)).ToString();
+        if (isOn[1] == true)
+        {
+            Current[1].text = I.ToString();
+            VoltageOut[1].text = (I * float.Parse(Resistance[M].GetComponent<Text>().text)).ToString();
+        }
     }
     //Выбор интерфейсы для определенной схемы
     void switchCanvas(int n)

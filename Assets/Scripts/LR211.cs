@@ -100,7 +100,8 @@ public class LR211 : MonoBehaviour
         UnityEngine.Debug.Log("Ul=" + Ul + " В");
         Ulc = Uc-Ul;
         UnityEngine.Debug.Log("Ul=" + Ul + " В");
-        currentS.text = Math.Round(Im*1000, 3).ToString();
+        if (isOn == true)
+            currentS.text = Math.Round(Im*1000, 3).ToString();
         mes(xVal);
     }
 
@@ -121,16 +122,20 @@ public class LR211 : MonoBehaviour
         switch (val)
         {
             case 0:
-                VoltageOut.text = Math.Round(Uc, 3).ToString();
+                if (isOn == true)
+                    VoltageOut.text = Math.Round(Uc, 3).ToString();
                 break;
             case 1:
-                VoltageOut.text = Math.Round(Ul, 3).ToString();
+                if (isOn == true)
+                    VoltageOut.text = Math.Round(Ul, 3).ToString();
                 break;
             case 2:
-                VoltageOut.text = Math.Round(Ur, 3).ToString();
+                if (isOn == true)
+                    VoltageOut.text = Math.Round(Ur, 3).ToString();
                 break;
             case 3:
-                VoltageOut.text = Math.Round(Ulc, 3).ToString();
+                if (isOn == true)
+                    VoltageOut.text = Math.Round(Ulc, 3).ToString();
                 break;
             default:
                 UnityEngine.Debug.Log("Ошибка при выборе объекта измерений");

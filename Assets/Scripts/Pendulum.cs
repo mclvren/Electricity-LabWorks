@@ -65,7 +65,7 @@ public class Pendulum : MonoBehaviour {
 	
 	
 	float t = 0f;
-	float dt = 0.00001f;
+	float dt = 0.001f;
 	float currentTime = 0f;
 	float accumulator = 0f;
 	
