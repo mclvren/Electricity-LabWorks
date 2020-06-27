@@ -293,7 +293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &236740151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &236740153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,8 +341,8 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 720, y: 1080}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -383,7 +383,7 @@ RectTransform:
   - {fileID: 1093053616}
   - {fileID: 440615130}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -670,8 +670,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: 186}
-  m_SizeDelta: {x: 800, y: 1000}
+  m_AnchoredPosition: {x: 0, y: 75}
+  m_SizeDelta: {x: 710, y: 1100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &440615131
 MonoBehaviour:
@@ -686,7 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.009318906, g: 0, b: 0.254717, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -695,10 +695,10 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 24
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 40
-    m_Alignment: 0
+    m_MaxSize: 80
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -728,9 +728,10 @@ MonoBehaviour:
     \u0432\u0440\u0435\u043C\u0435\u043D\u0438 t \u043F\u0440\u043E\u0432\u0435\u0434\u0438\u0442\u0435
     \u043D\u0435 \u043C\u0435\u043D\u0435\u0435 \u0442\u0440\u0435\u0445 \u0440\u0430\u0437.
     \u0420\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u044B \u0432\u043D\u0435\u0441\u0438\u0442\u0435
-    \u0432 \u0442\u0430\u0431\u043B. \r\n\u2116\t\u041C\u0430\u0442\u0435\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
-    \u043C\u0430\u044F\u0442\u043D\u0438\u043A \u21161\r\n\tt, \u0441\t\u0394t, \u0441\tT,
-    \u0441\tg, \u043C/\u04412\t\u0394g, \u043C/\u04412\t\u03B5 , %\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t\r\n\t\t\t\t\t\t\r\n\u0441\u0440.\t\t\t\t\t\t\r\n4.\t\u041D\u0430\u0439\u0434\u0438\u0442\u0435
+    \u0432 \u0442\u0430\u0431\u043B.\n \r\n\t\t\t\t\t\u041C\u0430\u0442\u0435\u043C\u0430\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
+    \u043C\u0430\u044F\u0442\u043D\u0438\u043A \u21161\r\n\u2116\t\t\tt, \u0441\t\t\u0394t,
+    \u0441\t\tT, \u0441\t\tg, \u043C/\u04412\t\t\u0394g, \u043C/\u04412\t\t\u03B5
+    , %\r\n1\n2\t\t\t\t\t\t\r\n...\t\t\t\t\t\t\r\n\u0441\u0440.\n\t\t\t\t\t\t\r\n4.\t\u041D\u0430\u0439\u0434\u0438\u0442\u0435
     \u0443\u0441\u043A\u043E\u0440\u0435\u043D\u0438\u0435 \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u043E\u0433\u043E
     \u043F\u0430\u0434\u0435\u043D\u0438\u044F g \u043F\u043E \u0444\u043E\u0440\u043C\u0443\u043B\u0435
     . \u0421\u0440\u0430\u0432\u043D\u0438\u0442\u0435 \u0435\u0433\u043E \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435
@@ -740,7 +741,7 @@ MonoBehaviour:
     \u0443\u0441\u043A\u043E\u0440\u0435\u043D\u0438\u0435 \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u043E\u0433\u043E
     \u043F\u0430\u0434\u0435\u043D\u0438\u044F g \u043F\u043E \u0444\u043E\u0440\u043C\u0443\u043B\u0435
     \u0434\u043B\u044F \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E
-    \u043C\u0430\u044F\u0442\u043D\u0438\u043A\u0430 g=4\u03C0^2*I/(mLT^2 ) . \u041E\u0446\u0435\u043D\u0438\u0442\u0435
+    \u043C\u0430\u044F\u0442\u043D\u0438\u043A\u0430\n\ng=4\u03C0^2*I/(mLT^2 ) \n\n\u041E\u0446\u0435\u043D\u0438\u0442\u0435
     \u043F\u043E\u0433\u0440\u0435\u0448\u043D\u043E\u0441\u0442\u044C, \u043E\u0431\u0443\u0441\u043B\u043E\u0432\u043B\u0435\u043D\u043D\u0443\u044E
     \u043F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u0438\u0435\u043C
     \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u043E\u0433\u043E \u043C\u0430\u044F\u0442\u043D\u0438\u043A\u0430
@@ -1188,7 +1189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 173, y: 284}
+  m_AnchoredPosition: {x: 0, y: 250}
   m_SizeDelta: {x: 270, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &750304041
@@ -1796,7 +1797,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1093053615
 GameObject:
@@ -2533,7 +2534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1515177502
 MonoBehaviour:
   m_ObjectHideFlags: 0
